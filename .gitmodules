@@ -1,0 +1,12 @@
+[submodule "embedded-zhc"]
+	path = embedded-zhc
+	url = git@github.com:zhac-project/embedded-zhc.git
+[submodule "zhac-components"]
+	path = zhac-components
+	url = git@github.com:zhac-project/zhac-components.git
+[submodule "zhac-main-core"]
+	path = zhac-main-core
+	url = git@github.com:zhac-project/zhac-main-core.git
+[submodule "zhac-net-core"]
+	path = zhac-net-core
+	url = git@github.com:zhac-project/zhac-net-core.git

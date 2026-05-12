@@ -1,0 +1,71 @@
+ZHAC — ESP32 Zigbee Home Automation Controller
+Copyright © 2025–2026 Evgenij Cjura and project contributors.
+
+This is the meta-repo for a multi-repository project. Component-level
+licensing is documented in the root `LICENSE` file and in the
+`LICENSE` file at the root of each submodule.
+
+================================================================================
+Trademarks
+================================================================================
+
+"ZHAC" and any associated logos, product names, and marks are the
+exclusive property of the project maintainer. The licenses that
+govern the ZHAC source code (Apache-2.0 for `embedded-zhc` and some
+components; AGPL-3.0-or-later for the firmware and Web UI) DO NOT
+grant any right to use these names or marks. Forks, redistributions,
+and derivative works must choose a different product name and
+branding when distributing modified versions of ZHAC.
+
+================================================================================
+Third-party components in this project (aggregate across submodules)
+================================================================================
+
+1. ArduinoJson — bundled inside zhac-net-core
+   Copyright © 2014-2024 Benoit BLANCHON
+   Licensed under the MIT License.
+
+2. esp-mqtt — bundled inside zhac-net-core
+   Copyright © Espressif Systems (Shanghai) CO LTD
+   Licensed under the Apache License 2.0.
+
+3. lua-cjson — bundled inside zhac-main-core
+   Copyright © 2010-2012 Mark Pulford
+   Licensed under the MIT License.
+   Upstream: https://github.com/openresty/lua-cjson (v2.1.0.14)
+
+4. Zigbee2MQTT device definitions — source material for embedded-zhc
+   Portions adapted from the zigbee-herdsman-converters project.
+   Copyright © Koen Kanters and contributors.
+   Licensed under the MIT License.
+   Upstream: https://github.com/Koenkk/zigbee-herdsman-converters
+   Adaptations are redistributed under Apache-2.0.
+
+================================================================================
+Third-party dependencies pulled at build time (not vendored)
+================================================================================
+
+- ESP-IDF v6.0 — Apache License 2.0 (Espressif Systems).
+- FreeRTOS — MIT License (Amazon Web Services, Inc.).
+- PUC-Lua 5.5 — MIT License (Lua.org, PUC-Rio). Fetched via the
+  ESP Component Registry as `georgik/lua`.
+- CodeMirror 6 — MIT License. Fetched via npm by www-spa.
+- Preact, @preact/signals, Vite and other Web UI dependencies —
+  see `www-spa/package.json` and each package's own LICENSE.
+
+================================================================================
+License compatibility
+================================================================================
+
+All third-party licenses listed above are permissive (MIT / Apache
+2.0) and are compatible with both the Apache License 2.0 (governing
+`embedded-zhc` and some `zhac-components` modules) and the GNU
+Affero General Public License v3 or later (governing the firmware
+and Web UI repos).
+
+Apache-2.0 code is one-way compatible into AGPL-3.0: firmware builds
+that link Apache-2.0 components (including `embedded-zhc` and
+ESP-IDF) are distributed as a combined work under AGPL-3.0-or-later.
+No part of this combination back-propagates AGPL terms onto the
+original Apache-2.0 components, which remain under their own
+license when used in isolation.

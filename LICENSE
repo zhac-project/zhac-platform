@@ -1,0 +1,43 @@
+ZHAC — Multi-component license overview
+========================================
+
+ZHAC is published as a collection of repositories, each under its own
+license. Canonical license texts live in `LICENSES/`. Each submodule
+carries its own authoritative `LICENSE` file.
+
+| Submodule          | License              | SPDX              |
+|--------------------|----------------------|-------------------|
+| embedded-zhc       | Apache License 2.0   | Apache-2.0        |
+| zhac-components    | Mixed (see below)    | per-file / per-component |
+| zhac-main-core     | GNU AGPL v3 or later | AGPL-3.0-or-later |
+| zhac-net-core      | GNU AGPL v3 or later | AGPL-3.0-or-later |
+| www-spa            | GNU AGPL v3 or later | AGPL-3.0-or-later |
+
+Mixed-license detail for `zhac-components`:
+
+| Component in zhac-components      | License              |
+|-----------------------------------|----------------------|
+| zap_common                        | Apache-2.0           |
+| metrics                           | Apache-2.0           |
+| event_bus, hap_protocol,          | AGPL-3.0-or-later    |
+| hap_session, hap_json,            | AGPL-3.0-or-later    |
+| device_shadow, device_backend,    | AGPL-3.0-or-later    |
+| zap_store, zhc_adapter            | AGPL-3.0-or-later    |
+
+The per-component `LICENSE` file inside `zhac-components` is the
+authoritative source. Individual source files carry an
+`SPDX-License-Identifier:` header.
+
+Third-party code vendored into any submodule is listed in that
+submodule's `NOTICE` file; the aggregate is in `zhac-platform/NOTICE`.
+
+Contributions are accepted only under the Contributor License
+Agreement in `CLA.md`. The CLA grants the maintainer broad rights —
+including the right to relicense — which allows ZHAC to be offered
+under multiple licenses (open-source + a commercial / cloud option)
+without renegotiating with every past contributor.
+
+Copyright © 2025–2026 Evgenij Cjura and project contributors.
+
+"ZHAC" and associated names, logos, and marks are not covered by any
+of the licenses above. See `NOTICE` for the trademark statement.

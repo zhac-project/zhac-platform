@@ -1,0 +1,48 @@
+# Meta-repo only owns: .gitmodules, justfile, tests/, umbrella docs.
+# Submodules track their own content — never stage files under their paths
+# from this repo. Patterns below cover local build/dev artefacts that may
+# appear inside checked-out submodules.
+
+# ESP-IDF firmware artefacts (zhac-main-core, zhac-net-core)
+**/build/
+**/managed_components/
+**/dependencies.lock
+**/sdkconfig
+**/sdkconfig.old
+**/sdkconfig.ci.*
+
+# CMake (embedded-zhc host build)
+**/CMakeCache.txt
+**/CMakeFiles/
+**/cmake_install.cmake
+**/compile_commands.json
+**/CTestTestfile.cmake
+
+# Node / SPA (www-spa)
+**/node_modules/
+**/dist/
+**/.vite/
+**/*.log
+
+# Python tooling
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# AI assistants
+.claude/
+.qwen/
+
+# Local overrides
+*.local
+*.user

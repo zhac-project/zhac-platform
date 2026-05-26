@@ -44,7 +44,7 @@ tagged `v2026042301` at the split point.
 |------|------|---------|
 | **zhac-platform** *(this)* | Meta — aggregates submodules, holds umbrella LICENSE/NOTICE/CLA/CONTRIBUTORS, cross-repo tests | Apache-2.0 umbrella; per-sub licenses authoritative |
 | `embedded-zhc` | C++20 static-memory ZCL device library (373 vendors, 4 167 devices) | Apache-2.0 |
-| `zhac-components` | 10 shared ESP-IDF components + vendored `arduinojson` | Per-component (Apache or AGPL); arduinojson = MIT |
+| `zhac-components` | 17 shared ESP-IDF components + vendored `arduinojson` | Per-component (Apache or AGPL); arduinojson = MIT |
 | `zhac-main-core` | P4 firmware (Zigbee coordinator) | AGPL-3.0-or-later |
 | `zhac-net-core` | S3 firmware (WiFi gateway). Nests `www-spa` as submodule | AGPL-3.0-or-later |
 | `www-spa` | Preact 10 + Vite 5 Web UI, bundled into S3 SPIFFS | AGPL-3.0-or-later |
@@ -294,9 +294,9 @@ Definition: `zhac-components/components/zap_common/include/zcl_attribute.h`.
 
 - **Architecture / API**: clone `zhac-docs` (`REST_API.md`,
   `WS_API.md`, `LUA_API.md`, `RULES_DSL.md`, `FEATURES.md`).
-- **Knowledge graph**: legacy monorepo (internal)
-  has `graphify-out/graph.json` (982 nodes, 1 331 edges, 146
-  communities). Query with `/graphify query "..."`.
+- **Knowledge graph** *(maintainer-only; not part of the public split)*:
+  the pre-split monorepo has `graphify-out/graph.json` (982 nodes,
+  1 331 edges, 146 communities).
 - **CLAUDE.md** from the old monorepo still documents the
   code-change philosophy (Think Before Coding · Simplicity First ·
   Surgical Changes · Goal-Driven Execution). Same rules apply here.

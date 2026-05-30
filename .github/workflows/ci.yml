@@ -1,0 +1,52 @@
+# SPDX-FileCopyrightText: 2025-2026 Evgenij Cjura and project contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# Integrated CI for the ZHAC platform (FINDINGS.md F17). Builds both firmware
+# cores from the aggregated submodules and enforces SPDX headers.
+# NOTE: authored but not executed in the dev sandbox — validate on first run.
+name: ci
+on:
+  push:
+  pull_request:
+
+jobs:
+  firmware:
+    name: build-${{ matrix.target }}
+    runs-on: ubuntu-latest
+    container: espressif/idf:release-v6.0
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { dir: zhac-main-core, target: esp32p4 }
+          - { dir: zhac-net-core,  target: esp32s3 }
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Set up Node (S3 embeds the SPA dist/)
+        if: matrix.target == 'esp32s3'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Build SPA
+        if: matrix.target == 'esp32s3'
+        run: cd zhac-net-core/www-spa && npm ci && npm run build
+      - name: Build firmware
+        shell: bash
+        run: |
+          . "$IDF_PATH/export.sh"
+          # Split-repo component resolution (mirrors the justfile).
+          export IDF_COMPONENT_OVERRIDE_PATH="$GITHUB_WORKSPACE/zhac-components/components"
+          export EMBEDDED_ZHC_PATH="$GITHUB_WORKSPACE/embedded-zhc"
+          idf.py -C "${{ matrix.dir }}" set-target "${{ matrix.target }}"
+          idf.py -C "${{ matrix.dir }}" build
+
+  spdx:
+    name: spdx-headers
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - run: bash tools/check-spdx.sh embedded-zhc zhac-components zhac-main-core zhac-net-core

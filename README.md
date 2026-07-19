@@ -1,10 +1,44 @@
-# zhac-platform
+# ZHAC — a local-first Zigbee smart-home hub on two ESP32 chips
 
-Meta-repo for **ZHAC** — an ESP32 dual-chip Zigbee Home Automation
-Controller. This repo is not built directly; it aggregates four source
-repositories via git submodules and carries the project's public
-identity (umbrella LICENSE, NOTICE, CLA, contributor list, cross-repo
-integration tests).
+**ZHAC** is an open-source Zigbee Home Automation Controller. It pairs your
+Zigbee gadgets — lights, switches, plugs, sensors, thermostats — and lets you
+control and automate them from a web page the device serves itself. No cloud
+account, no subscription, no phone-home: it all runs on the hardware in front
+of you, on your own network.
+
+### What it does
+
+- **Talks Zigbee.** Acts as a Zigbee coordinator — pair and run 4 000+ device
+  models (built from the Zigbee2MQTT device database, ~99 % coverage).
+- **Local web UI.** A built-in web app, served straight off the device, to see
+  your devices, flip switches, and edit automations. Nothing leaves your LAN.
+- **Automations.** A Lua rule engine plus a simple "when this, do that" rule
+  language for no-code automations.
+- **Speaks MQTT.** Bridges to Home Assistant or any MQTT broker if you want it.
+- **Two chips, one job.** An ESP32-P4 handles Zigbee and the logic; an ESP32-S3
+  handles WiFi, the web UI, and MQTT. They talk over a small custom link.
+
+### What you need
+
+- An **ESP32-P4** board and an **ESP32-S3** board, plus a Zigbee radio. Which
+  boards, and how they wire together, is in
+  [zhac-docs](https://github.com/zhac-project/zhac-docs).
+- A computer with **ESP-IDF v6.0** and **Node.js ≥ 18** to build and flash.
+- About 10 minutes for the [Quick start](#quick-start) below.
+
+> **New here?** The three sections above are the whole pitch. When you're ready
+> to build it, go to [Quick start](#quick-start). Everything past that point is
+> for people building or contributing to ZHAC.
+
+---
+
+## About this repo (`zhac-platform`)
+
+This is the **meta-repo** — it doesn't build on its own, it ties the project
+together. It aggregates the four source repositories as git submodules and
+carries the project's public identity (umbrella LICENSE, NOTICE, CLA,
+contributor list, cross-repo integration tests). If you just want to build
+ZHAC, the [Quick start](#quick-start) pulls the submodules in for you.
 
 ## Sub-repositories (submodules)
 

@@ -83,7 +83,7 @@ release tag:
 # that require hardware).
 test-host:
     cd embedded-zhc && cmake -B build -S . && cmake --build build && ctest --test-dir build
-    cd zhac-net-core/www-spa && npm test -- --run
+    cd zhac-net-core/www-spa && npm run check:tokens
 
 # Print what version is checked out in each submodule.
 status:

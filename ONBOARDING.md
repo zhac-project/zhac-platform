@@ -43,7 +43,7 @@ tagged `v2026042301` at the split point.
 | Repo | Role | License |
 |------|------|---------|
 | **zhac-platform** *(this)* | Meta — aggregates submodules, holds umbrella LICENSE/NOTICE/CLA/CONTRIBUTORS, cross-repo tests | Apache-2.0 umbrella; per-sub licenses authoritative |
-| `embedded-zhc` | C++20 static-memory ZCL device library (373 vendors, 4 167 devices) | Apache-2.0 |
+| `embedded-zhc` | C++20 static-memory ZCL device library (400 manufacturers, 4 989 device definitions) | Apache-2.0 |
 | `zhac-components` | 17 shared ESP-IDF components + vendored `arduinojson` | Per-component (Apache or AGPL); arduinojson = MIT |
 | `zhac-main-core` | P4 firmware (Zigbee coordinator) | AGPL-3.0-or-later |
 | `zhac-net-core` | S3 firmware (WiFi gateway). Nests `www-spa` as submodule | AGPL-3.0-or-later |

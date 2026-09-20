@@ -8,8 +8,9 @@ of you, on your own network.
 
 ### What it does
 
-- **Talks Zigbee.** Acts as a Zigbee coordinator — pair and run 4 000+ device
-  models (built from the Zigbee2MQTT device database, ~99 % coverage).
+- **Talks Zigbee.** Acts as a Zigbee coordinator — pair and run almost 5 000
+  device models from 400 manufacturers (built from the Zigbee2MQTT device database, ~99 % coverage;
+  [check yours](https://github.com/zhac-project/zhac-docs/blob/master/supported-devices/README.md)).
 - **Local web UI.** A built-in web app, served straight off the device, to see
   your devices, flip switches, and edit automations. Nothing leaves your LAN.
 - **Automations.** A Lua rule engine plus a simple "when this, do that" rule
@@ -205,6 +206,12 @@ attributions, and each submodule's `LICENSE` file for the
 authoritative per-component license.
 
 ## Contributing
+
+Found a bug, missing a device, or tried ZHAC on another board? Use the
+[issue forms](https://github.com/zhac-project/zhac-platform/issues/new/choose) —
+one tracker for the whole project, whichever repo the fix lands in.
+
+To change code:
 
 1. Read `CLA.md` and sign by adding yourself to `CONTRIBUTORS.md` in
    your first PR (in any repo — signing once covers all).

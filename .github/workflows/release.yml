@@ -1,0 +1,109 @@
+# SPDX-FileCopyrightText: 2025-2026 Evgenij Cjura and project contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# Publishes flashable dual-chip images for every vYYYYMMDDVV tag that
+# `just release` creates. Each image is ONE merged file (bootloader,
+# partition table, app and — for the S3 — the web UI) written at offset
+# 0x0, which is what the browser flasher and `esptool write-flash 0x0` take.
+#
+# The submodule SHAs pinned by the tag are what gets built, so a release
+# image is reproducible from the tag alone.
+name: release
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  image:
+    name: image-${{ matrix.target }}
+    runs-on: ubuntu-latest
+    container: espressif/idf:release-v6.0
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          - { dir: zhac-main-core, target: esp32p4, name: zhac-dualchip-p4 }
+          - { dir: zhac-net-core,  target: esp32s3, name: zhac-dualchip-s3 }
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      # The SPA build regenerates the Lua autocomplete from zhac-docs'
+      # LUA_API.md and writes an EMPTY module when it cannot find it, so the
+      # docs repo has to sit where www-spa's generator looks for it.
+      - uses: actions/checkout@v4
+        if: matrix.target == 'esp32s3'
+        with:
+          repository: zhac-project/zhac-docs
+          path: zhac-docs
+      - uses: actions/setup-node@v4
+        if: matrix.target == 'esp32s3'
+        with:
+          node-version: '20'
+      - name: Build the web UI (the S3 packs it into SPIFFS)
+        if: matrix.target == 'esp32s3'
+        run: cd zhac-net-core/www-spa && npm ci && npm run build
+      - name: Build and merge
+        shell: bash
+        run: |
+          . "$IDF_PATH/export.sh"
+          export IDF_COMPONENT_OVERRIDE_PATH="$GITHUB_WORKSPACE/zhac-components/components"
+          export EMBEDDED_ZHC_PATH="$GITHUB_WORKSPACE/embedded-zhc"
+          idf.py -C "${{ matrix.dir }}" set-target "${{ matrix.target }}"
+          idf.py -C "${{ matrix.dir }}" build
+          idf.py -C "${{ matrix.dir }}" merge-bin -o "$GITHUB_WORKSPACE/${{ matrix.name }}-${GITHUB_REF_NAME}.bin"
+          # App partition only, for the web UI's OTA page. The merged image
+          # above would overwrite the bootloader and partition table.
+          cp "${{ matrix.dir }}/build/${{ matrix.dir }}.bin" "$GITHUB_WORKSPACE/${{ matrix.name }}-${GITHUB_REF_NAME}-ota.bin"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.name }}
+          path: ${{ matrix.name }}-*.bin
+          if-no-files-found: error
+
+  publish:
+    needs: image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          merge-multiple: true
+      - name: Checksums and release notes
+        run: |
+          sha256sum *.bin > SHA256SUMS
+          cat > notes.md <<NOTES
+          Dual-chip ZHAC: an ESP32-P4 board (Zigbee + rules + Lua) and an ESP32-S3 board
+          (network, web UI, MQTT) joined over SPI. Wiring and hardware:
+          https://github.com/zhac-project/zhac-docs
+
+          ### Flash it
+
+          From Chrome or Edge, no toolchain: https://zhac-project.github.io/zhac-docs/flash/
+
+          Or with esptool, one file per board, written at offset 0:
+
+          \`\`\`sh
+          esptool --chip esp32s3 --port /dev/ttyUSB0 write-flash 0x0 zhac-dualchip-s3-${GITHUB_REF_NAME}.bin
+          esptool --chip esp32p4 --port /dev/ttyACM0 write-flash 0x0 zhac-dualchip-p4-${GITHUB_REF_NAME}.bin
+          \`\`\`
+
+          The P4 image targets ESP32-P4 silicon **v0.x–v1.x**. Check yours first with
+          \`esptool --port <PORT> flash-id\`; a v3.x chip will not boot this image.
+
+          Updating boards that already run ZHAC: the web UI's OTA page lists this release
+          for each chip and installs it (the \`-ota.bin\` files; keep their names as published,
+          the page matches on them). Update the S3 first, then the P4.
+
+          ### What changed
+
+          Each repository keeps its own CHANGELOG.md; this tag pins the exact commit of each.
+          NOTES
+      - uses: softprops/action-gh-release@v2
+        with:
+          body_path: notes.md
+          files: |
+            *.bin
+            SHA256SUMS

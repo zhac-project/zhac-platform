@@ -20,6 +20,11 @@ work; its contents become the release-tag annotation at `just release`.
   from the pinned submodules and attaches one merged `.bin` per board (flash at offset
   0x0) plus `SHA256SUMS` to the GitHub release. No toolchain needed to install ZHAC.
 
+### Changed
+
+- **Release notes link the browser flasher at `https://zhac.org/flash/`**; the old
+  github.io address only redirects there.
+
 ### Fixed
 
 - `just test-host` ran `npm test` in www-spa, which has no test script; it now runs the

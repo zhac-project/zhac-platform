@@ -81,7 +81,7 @@ jobs:
 
           ### Flash it
 
-          From Chrome or Edge, no toolchain: https://zhac-project.github.io/zhac-docs/flash/
+          From Chrome or Edge, no toolchain: https://zhac.org/flash/
 
           Or with esptool, one file per board, written at offset 0:
 

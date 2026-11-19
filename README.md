@@ -1,5 +1,11 @@
 # ZHAC — a local-first Zigbee smart-home hub on two ESP32 chips
 
+> **Archived (November 2026).** This two-chip build (ESP32-P4 + ESP32-S3)
+> never shipped and is no longer developed. The ZHAC hub is
+> [zhac-wired-core](https://github.com/zhac-project/zhac-wired-core) on one
+> board (ESP32-S31, or ESP32-P4 with an ESP32-C6 radio). Docs, issues and
+> Discussions: [zhac-docs](https://github.com/zhac-project/zhac-docs).
+
 **ZHAC** is an open-source Zigbee Home Automation Controller. It pairs your
 Zigbee gadgets — lights, switches, plugs, sensors, thermostats — and lets you
 control and automate them from a web page the device serves itself. No cloud
